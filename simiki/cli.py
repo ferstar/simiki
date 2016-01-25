@@ -228,8 +228,8 @@ class Generator(object):
         dest_dir = os.path.join(self.target_path,
                                 self.config["destination"])
         if os.path.exists(dest_dir):
-            # for github pages
-            exclude_list = ['.git', 'CNAME']
+            # for github pages and favicon support
+            exclude_list = ['.git', 'CNAME', 'favicon.ico']
             emptytree(dest_dir, exclude_list)
 
         self.generate_pages()
@@ -245,7 +245,12 @@ class Generator(object):
 
         self.copy_attach()
 
-        # for github pages with custom domain
+        # for github pages with custom domain and favicon support
+        favicon_file = os.path.join(getcwdu(), 'favicon.ico')                     
+        if os.path.exists(favicon_file):
+            shutil.copy2(favicon_file,
+                         os.path.join(self.config['destination'], 'favicon.ico')
+
         cname_file = os.path.join(getcwdu(), 'CNAME')
         if os.path.exists(cname_file):
             shutil.copy2(cname_file,
